@@ -68,7 +68,7 @@ class TradingManager:
             try:
                 pair_data = get_pair_data_by_symbol(market_row["symbol"])
                 if pair_data is not None:
-                    logger.info(f"[{self.thread_id}] [{self.short_pk_paradex}] [{self.short_pk_backpack}] Selected market: {market_row['symbol']}")
+                    logger.debug(f"[{self.thread_id}] [{self.short_pk_paradex}] [{self.short_pk_backpack}] Selected market: {market_row['symbol']}")
                     return pair_data
             except Exception as exc:
                 logger.warning(f"[{self.thread_id}] [{self.short_pk_paradex}] [{self.short_pk_backpack}] Error selecting market {market_row['symbol']}: {exc}")

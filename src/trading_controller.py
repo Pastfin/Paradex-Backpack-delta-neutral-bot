@@ -84,7 +84,7 @@ class TradingController:
             t = threading.Thread(target=thread_worker, args=(paradex_data, backpack_data, stop_event))
             thread_id = f"Thread-{n}"
             self.threads[thread_id] = {"thread": t, "stop_event": stop_event}
-            logger.info(f"[{n}] Starting thread with Paradex {paradex_data['private_key'][:10]} and Backpack {backpack_data['api_secret'][:10]}")
+            logger.debug(f"[{n+1}] Starting thread with Paradex {paradex_data['private_key'][:10]} and Backpack {backpack_data['api_secret'][:10]}")
             t.start()
 
             delay_cfg = self.config["delay_between_starting_new_thread_sec"]
