@@ -1,0 +1,8 @@
+loguru==0.7.3
+numpy==2.2.4
+pandas==2.2.3
+questionary==2.1.0
+Requests==2.32.3
+starknet_py==0.25.0
+openpyxl==3.1.5
+PyNaCl==1.5.0

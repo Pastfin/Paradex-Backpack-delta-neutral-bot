@@ -1,0 +1,29 @@
+{
+    "order_value_usd": {
+        "min": 150,
+        "max": 250
+    },
+    "order_duration_min": {
+        "min": 600,
+        "max": 800
+    },
+    "delay_between_trading_cycles_min": {
+        "min": 5,
+        "max": 15
+    },
+    "delay_between_starting_new_thread_sec": {
+        "min": 10,
+        "max": 15
+    },
+    "ltv_checks_sec": {
+        "min": 30,
+        "max": 40
+    },
+
+    "max_leverage": 2,
+    "max_position_ltv": 75,
+    "orders_distribution_noise": 0.15,
+    "retries": 5,
+
+    "debug_level": "INFO"
+}
