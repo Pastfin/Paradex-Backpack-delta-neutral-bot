@@ -21,6 +21,8 @@ def update_accounts_info():
 def update_paradex_accounts_info():
     df = pd.read_excel(DATA_DIR + "/accounts_paradex.xlsx")
 
+    df = df.sample(frac=1).reset_index(drop=True)
+
     for x in range(df.shape[0]):
         data = df.iloc[x]
 
@@ -90,11 +92,13 @@ def update_paradex_accounts_info():
         time.sleep(random.randint(3, 5))
 
     df.to_excel(DATA_DIR + "/accounts_paradex.xlsx", index=False)
-    logger.success(f"Paradex: updated balances and open positions for {len(df)} accounts.")
+    logger.success(f"Paradex: updated balances and open positions for {df.shape[0]} accounts.")
 
 
 def update_backpack_accounts_info():
     df = pd.read_excel(DATA_DIR + "/accounts_backpack.xlsx")
+
+    df = df.sample(frac=1).reset_index(drop=True)
 
     for x in range(df.shape[0]):
         data = df.iloc[x]
@@ -154,4 +158,4 @@ def update_backpack_accounts_info():
 
 
     df.to_excel(DATA_DIR + "/accounts_backpack.xlsx", index=False)
-    logger.success(f"Backpack: updated balances and open positions for {len(df)} accounts.")
+    logger.success(f"Backpack: updated balances and open positions for {df.shape[0]} accounts.")
