@@ -175,6 +175,11 @@ class TradingManager:
                 logger.warning(f"[{self.thread_id}] [{self.short_pk_paradex}] Paradex {paradex_side} failed on attempt {attempt}: {exc}")
                 time.sleep(1)
 
+        if not paradex_success:
+            logger.error(f"[{self.thread_id}] [{self.short_pk_paradex}] [{self.short_pk_backpack}] Failed to open positions")
+            self.close_positions()
+            raise RuntimeError("Unable to open position on Paradex")
+
         backpack_success = False
         for attempt in range(1, self.retries + 1):
             try:
@@ -189,10 +194,10 @@ class TradingManager:
                 logger.warning(f"[{self.thread_id}] [{self.short_pk_backpack}] Backpack {backpack_side} failed on attempt {attempt}: {exc}")
                 time.sleep(1)
 
-        if not (paradex_success or backpack_success):
+        if not backpack_success:
             logger.error(f"[{self.thread_id}] [{self.short_pk_paradex}] [{self.short_pk_backpack}] Failed to open positions")
             self.close_positions()
-            raise RuntimeError("Unable to open positions")
+            raise RuntimeError("Unable to open position on Backpack")
 
         delay = random.randint(5, 10)
         time.sleep(delay)

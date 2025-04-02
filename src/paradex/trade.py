@@ -58,6 +58,18 @@ def open_position(account: Account, side: str, market: str, size: str, proxy_str
 
     if response.status_code == 201:
         order = response.json()
+        order_id = order["id"]
+        order_info = get_order_info_by_id(account, order_id, proxy_str)
+
+        cancel_reason = order_info.get("cancel_reason", "").strip()
+
+        if cancel_reason:
+            logger.error(
+                f"[{short_pk}] {order_payload['side']} {order_payload['size']} {order_payload['market']} — "
+                f"failed: {cancel_reason}"
+            )
+            raise ValueError("Error opening a new position")
+
         update_state(private_key, "last_order", order)
         logger.success(
             f"[{short_pk}] {order['side']} {order['size']} {order['market']} — "
@@ -91,3 +103,21 @@ def close_last_position(account: Account, proxy_str: str) -> None:
     update_state(pk, "position", "closed")
 
     return
+
+
+def get_order_info_by_id(account: Account, order_id: str, proxy_str: str) -> dict:
+    jwt = get_jwt_token(account, proxy_str)
+    if not jwt:
+        raise ValueError("JWT token is empty, auth failed")
+
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": f"Bearer {jwt}",
+    }
+
+    url = f"{PARADEX_HTTP_URL}/orders/{order_id}"
+
+    response = requests.get(url, headers=headers, proxies=convert_proxy_to_dict(proxy_str))
+
+    return response.json()
